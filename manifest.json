@@ -1,0 +1,19 @@
+{
+  "name": "IMG hide",
+  "version": "2025.1",
+  "options_page":  "options.html",
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+  "manifest_version": 3,
+  "permissions": ["storage"],
+  "icons": {
+        "128": "icon.png"
+    }
+}

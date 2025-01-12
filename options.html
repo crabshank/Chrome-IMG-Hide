@@ -1,0 +1,28 @@
+<html>
+<head>
+<style>
+button#save {
+	width: 116px;
+	color: #000000;
+	font-size: 19px;
+	background: buttonface;
+	padding: 5px 10px 5px 10px;
+}
+textarea {
+    border: #00000069;
+    border-style: outset;
+    border-width: 1px;
+	width: -webkit-fill-available;
+	min-height: 3.1ch;
+}
+</style>
+</head>
+<body>
+<span>Allow IMGs from these URLs to stay loaded (enter domain names separated by commas; use asterisks with slashes):</span><br>
+<textarea id="whitelist"></textarea><br>
+
+<div id="stats"></div>
+<button id="save">Save</button>
+<script src="options.js"></script>
+</body>
+</html>
