@@ -1,5 +1,8 @@
 let whtlist=[];
 let ctx=[];
+let stylEl;
+let hideStyl='img,video,iframe,[style*="background"][style*="url("]{border:2px red solid !important; margin-left:-0.5px !important; clip-path:polygon(0% 0%,0% 100%,0.3% 100%,0.3% 0.3%,99.7% 0.3%,99.7% 99.7%,0.3% 99.7%,0.3% 100%,100% 100%,100% 0%)!important;}';
+
 function keepMatchesShadow(els,slcArr,isNodeName){
    if(slcArr[0]===false){
       return els;
@@ -167,8 +170,9 @@ function restore_options()
                 }
                 isBl=isCurrentSiteBlacklisted();
                 if(isBl[0]===false){
-                    let s=`<style>img,video,iframe,[style*="background"][style*="url("]{border:2px red solid !important; margin:2px !important; clip-path:polygon(0% 0%,0% 100%,0.45% 100%,0.45% 0.45%,99.45% 0.45%,99.45% 99.45%,0.45% 99.45%,0.45% 100%,100% 100%,100% 0%)!important;}</style>`;
-                    document.head.insertAdjacentHTML('afterbegin',s);
+                    stylEl=document.createElement('style');
+                    stylEl.innerHTML=hideStyl;
+                    document.head.insertAdjacentElement('afterbegin',stylEl);
                     let vvis=(e)=>{
                         let p=e.composedPath();
                         let showCtx=true;
@@ -179,6 +183,7 @@ function restore_options()
                             let vd=getMatchingNodesShadow(pi,tgs, false, false);
                             let vdl=vd.length;
                             if(vdl>0){
+                                let stEmpty=false;
                                 for(let j=0;j<vdl;++j){
                                     let vdj=vd[j];
                                     if(ig===false || !ctx.includes(vdj)){
@@ -186,18 +191,26 @@ function restore_options()
                                             showCtx=false;
                                             ctx.unshift(vdj);
                                         }
-                                        let s=getStyle(vdj,'border');
-                                        s=s!==''?s:'0px';
-                                        vdj.style.setProperty('border',s,'important');
-                                       
-                                        s=getStyle(vdj,'margin');
-                                        s=s!==''?s:'0px';
-                                        vdj.style.setProperty('margin',s,'important');
-                                       
-                                        s=getStyle(vdj,'clip-path');
-                                        s=s!==''?s:'none';
-                                        vdj.style.setProperty('clip-path',s,'important');
+                                        if(stEmpty===false){
+                                            stylEl.innerHTML='';
+                                            stEmpty=true;
+                                        }
+                                        let w=window.getComputedStyle(vdj);
+                                        let c=[
+                                            'border',
+                                            'margin-left',
+                                            'clip-path'
+                                        ];
+                                    
+                                        c.forEach((p)=>{
+                                            let s=getStyle(vdj,p);
+                                            s=s!==''?s:w[p];
+                                            vdj.style.setProperty(p,s,'important');
+                                        });
                                     }
+                                }
+                                if(stEmpty===true){
+                                    stylEl.innerHTML=hideStyl;
                                 }
                                 break;
                             }
