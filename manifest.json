@@ -1,6 +1,6 @@
 {
   "name": "IMG hide",
-  "version": "2025.1",
+  "version": "2026.7",
   "options_page":  "options.html",
   "content_scripts": [
     {
