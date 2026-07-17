@@ -242,7 +242,6 @@ function restore_options() {
                         let tgs=isCtx===false?['iframe','video','img','[style*="background"][style*="url("]']:['img','[style*="background"][style*="url("]'];
                         
                         let initialTargets = [];
-                        if(isCtx===true){
                             for(let i=0, len=p.length;i<len;++i){
                                 let pi=p[i];
                                 let vd=getMatchingNodesShadow(pi,tgs, false, false);
@@ -252,13 +251,6 @@ function restore_options() {
                                 }
                                 
                             }
-                        }else{
-                            let vd=getMatchingNodesShadow(e.target,tgs, false, false);
-                            if(vd.length>0){
-                                initialTargets = vd;
-                            }
-                        }
-                        
                         if(initialTargets.length > 0){
                             initialTargets.forEach(t => {
                                 if(!unhiddenTargets.includes(t)){ //if has red rect
